@@ -15,10 +15,8 @@
 import { defineComponent, reactive } from "vue";
 export default defineComponent({
   setup() {
-    const state = reactive({
-      id: "1",
-    });
-    return state;
+    const state = reactive({});
+    return { state };
   },
 });
 </script>
