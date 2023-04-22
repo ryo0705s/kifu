@@ -16,7 +16,8 @@
           <v-list-item title="Navigation drawer"></v-list-item>
         </v-list>
       </v-navigation-drawer> -->
-      <v-main style="min-height: 100vh" w-100><slot /> </v-main
+      <v-main style="min-height: 100vh" w-100
+        ><v-container><slot /></v-container> </v-main
       ><v-footer color="primary">
         <v-row>
           <v-col>home</v-col>
