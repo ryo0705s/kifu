@@ -1,0 +1,14 @@
+$primary: #e5f3f9;
+$secondary: #8fd5eb;
+$font-size: 10px;
+
+ul {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0;
+  margin-right: 10rem;
+  li {
+    list-style: none;
+    margin-right: 1rem;
+  }
+}
