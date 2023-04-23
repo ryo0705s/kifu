@@ -1,5 +1,5 @@
 <template>
-  <v-row align-content="ceneter">
+  <v-row align-content="center">
     <v-col align="center">
       <v-list>
         <v-list-item>ランダム検索結果</v-list-item>
@@ -7,7 +7,7 @@
       </v-list>
     </v-col>
   </v-row>
-  <v-row align-content="ceneter">
+  <v-row align-content="center">
     <v-col align="center">
       <v-list>
         <v-list-item>金額を入力</v-list-item>

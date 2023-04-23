@@ -1,5 +1,5 @@
 <template>
-  <v-row align-content="ceneter">
+  <v-row align-content="center">
     <v-col align="center">
       <v-list>
         <v-list-item>このアプリは気軽に寄付ができるアプリです。</v-list-item>
