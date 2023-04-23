@@ -4,11 +4,11 @@
       <v-app-bar color="primary"
         ><v-app-bar-title>kifu</v-app-bar-title>
         <ul>
-          <li>home</li>
-          <li>login</li>
-          <li>kifu</li>
-          <li>history</li>
-          <li>contact</li>
+          <li><nuxt-link to="/">home</nuxt-link></li>
+          <li><nuxt-link to="/">login</nuxt-link></li>
+          <li><nuxt-link to="/kifu">kifu</nuxt-link></li>
+          <li><nuxt-link to="/history">history</nuxt-link></li>
+          <li><nuxt-link to="/contact">contact</nuxt-link></li>
         </ul></v-app-bar
       >
       <!-- <v-navigation-drawer>
@@ -20,11 +20,11 @@
         ><v-container><slot /></v-container> </v-main
       ><v-footer color="primary">
         <v-row>
-          <v-col>home</v-col>
-          <v-col>login</v-col>
-          <v-col>kifu</v-col>
-          <v-col>history</v-col>
-          <v-col>contact</v-col>
+          <v-col><nuxt-link to="/"> home</nuxt-link></v-col>
+          <v-col><nuxt-link to="/">login</nuxt-link> </v-col>
+          <v-col><nuxt-link to="/kifu">kifu</nuxt-link> </v-col>
+          <v-col><nuxt-link to="/history">history</nuxt-link> </v-col>
+          <v-col><nuxt-link to="/contact">contact</nuxt-link> </v-col>
         </v-row></v-footer
       >
     </v-card>

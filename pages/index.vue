@@ -20,9 +20,9 @@
           <v-text-field label="password"></v-text-field> </v-form
       >
       </v-sheet> -->
-      <v-btn>login</v-btn>
+      <v-btn> <nuxt-link to="/">login</nuxt-link> </v-btn>
       <div>本アプリはamazonIDが必用になります</div>
-      <v-btn>問い合わせ</v-btn>
+      <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link> </v-btn>
     </v-col>
   </v-row>
 </template>
