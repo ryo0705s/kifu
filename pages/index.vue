@@ -32,6 +32,7 @@
           @click="handleClick()"
         />
       </a>
+      <v-btn id="logout" @click="handleLogout()">logout</v-btn>
       <div>本アプリはamazonIDが必用になります</div>
       <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link> </v-btn>
     </v-col>
@@ -55,21 +56,89 @@ export default {
     })(document);
   },
   setup() {
+    const state = reactive({
+      // ここにstateを定義する
+      params: {},
+    });
     const handleClick = () => {
-      let options = {};
-      options.scope = "profile";
-      console.log(options, "options");
-      options.scope_data = {
-        profile: { essential: false },
-      };
-      amazon.Login.authorize(
-        options,
-        "http://localhost:3000//handle_login.php"
+      // let options = {};
+      // options.scope = "profile";
+      // console.log(options, "options");
+      // options.scope_data = {
+      //   profile: { essential: false },
+      // };
+      // amazon.Login.authorize(
+      //   options,
+      //   "http://localhost:3000//handle_login.php",
+      //   function (response) {
+      //     if (response.error) {
+      //       alert("oauthエラー" + response.error);
+      //       return;
+      //     }
+      //   }
+      // );
+      // return false;
+      setTimeout(
+        (window.doLogin = function () {
+          let options = {
+            scope: "profile",
+            pkce: true,
+            response_type: "code",
+            redirect_uri: "http://localhost:3000//handle_login.php",
+            client_id:
+              "amzn1.application-oa2-client.c4db0a0cfc104ecbb0afc2afc513f6c1",
+            // state: "123456789",
+            // code_challenge: "123456789",
+            // code_challenge_method: "S256",
+          };
+          state.params = options;
+          amazon.Login.authorize(
+            options,
+            // "http://localhost:3000//handle_login.php"
+            function (response) {
+              console.log(response, "response");
+              if (response.error) {
+                alert("oauthエラー" + response.error);
+                return;
+              }
+              amazon.Login.retrieveToken(response.code, function (response) {
+                if (response.error) {
+                  alert("oauthエラー" + response.error);
+                  return;
+                }
+                amazon.Login.retrieveProfile(
+                  response.access_token,
+                  function (response) {
+                    alert("こんにちは。" + response.profile.Name);
+                    alert(
+                      "あなたのEメールアドレス：" +
+                        response.profile.PrimaryEmail
+                    );
+                    alert("あなたの一意のID：" + response.profile.CustomerId);
+                    if (window.console && window.console.log)
+                      window.console.log(response);
+                  }
+                );
+              });
+            }
+          );
+        }),
+        2
       );
-      return false;
+      // return false;
+      // console.log(state.params, "state.params");
+    };
+    // };
+    const handleLogout = () => {
+      document.getElementById("Logout").onclick,
+        function () {
+          amazon.Login.logout();
+        };
     };
     return {
+      state,
       handleClick,
+      handleLogout,
     };
   },
 };
