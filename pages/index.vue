@@ -1,5 +1,5 @@
 <template>
-  <div id="amazon-root"></div>
+  <!-- <div id="amazon-root"></div> -->
   <v-row align-content="center">
     <v-col align="center">
       <v-list>
@@ -15,6 +15,10 @@
   </v-row>
   <v-row>
     <v-col align="center">
+      <v-btn
+        href="https://kifu.auth.ap-northeast-1.amazoncognito.com/login?client_id=68uc2o5qmlr7lmaph4sr2qj5f9&response_type=code&scope=aws.cognito.signin.user.admin+openid&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F"
+        >ログイン</v-btn
+      >
       <!-- <v-sheet width="300" class="mx-auto"
         ><v-form>
           <v-text-field label="mail"></v-text-field>
@@ -22,7 +26,7 @@
       >
       </v-sheet> -->
       <!-- <v-btn> <nuxt-link to="/">login</nuxt-link> </v-btn> -->
-      <a href id="LoginWithAmazon">
+      <!-- <a href id="LoginWithAmazon">
         <img
           border="0"
           alt="Login with Amazon"
@@ -31,8 +35,8 @@
           height="32"
           @click="handleClick()"
         />
-      </a>
-      <v-btn id="logout" @click="handleLogout()">logout</v-btn>
+      </a> -->
+      <!-- <v-btn id="logout" @click="handleLogout()">logout</v-btn> -->
       <div>本アプリはamazonIDが必用になります</div>
       <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link> </v-btn>
     </v-col>
@@ -40,26 +44,27 @@
 </template>
 <script type="text/javascript">
 export default {
-  mounted() {
-    window.onAmazonLoginReady = function () {
-      amazon.Login.setClientId(
-        "amzn1.application-oa2-client.c4db0a0cfc104ecbb0afc2afc513f6c1"
-      );
-    };
-    (function (d) {
-      var a = d.createElement("script");
-      a.type = "text/javascript";
-      a.async = true;
-      a.id = "amazon-login-sdk";
-      a.src = "https://assets.loginwithamazon.com/sdk/na/login1.js";
-      d.getElementById("amazon-root").appendChild(a);
-    })(document);
-  },
+  // mounted() {
+  //   window.onAmazonLoginReady = function () {
+  //     amazon.Login.setClientId(
+  //       "amzn1.application-oa2-client.c4db0a0cfc104ecbb0afc2afc513f6c1"
+  //     );
+  //   };
+  //   (function (d) {
+  //     var a = d.createElement("script");
+  //     a.type = "text/javascript";
+  //     a.async = true;
+  //     a.id = "amazon-login-sdk";
+  //     a.src = "https://assets.loginwithamazon.com/sdk/na/login1.js";
+  //     d.getElementById("amazon-root").appendChild(a);
+  //   })(document);
+  // },
   setup() {
     const state = reactive({
       // ここにstateを定義する
       params: {},
     });
+
     const handleClick = () => {
       // let options = {};
       // options.scope = "profile";
