@@ -39,13 +39,15 @@ export default defineComponent({
       donation: 0,
     });
     const addDonation = async () => {
-      const { data } = await useFetch("http://127.0.0.1:8000/api/1", {
+      const { data } = await useFetch("http://127.0.0.1:8000/api/create", {
         method: "POST",
-        body: JSON.stringify({
-          donation: state.donation,
-        }),
+        mode: "no-cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        },
+        body: `title=hoge&description=fuga&donation_amount=0`,
       });
-      console.log(state.donation, "donation");
     };
     return {
       state,

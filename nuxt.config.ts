@@ -17,6 +17,15 @@ export default defineNuxtConfig({
     define: {
       "process.env.DEBUG": false,
     },
+    // server: {
+    //   proxy: {
+    //     "/api/create/": {
+    //       target: "http://127.0.0.1:8000",
+    //       changeOrigin: true,
+    //       rewrite: (path) => path.replace(/^\/api/, ""),
+    //     },
+    //   },
+    // },
     // css: {
     //   preprocessorOptions: {
     //     scss: {
