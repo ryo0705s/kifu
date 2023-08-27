@@ -15,10 +15,27 @@
   </v-row>
   <v-row>
     <v-col align="center">
-      <v-btn
+      <v-sheet width="300" class="mx-auto" v-if="state.isOpenModal"
+        ><v-form>
+          <v-text-field
+            label="mail"
+            v-model="state.loginInfo.mail"
+          ></v-text-field>
+          <v-text-field
+            label="password"
+            v-model="state.loginInfo.password"
+          ></v-text-field>
+          <v-btn @click="handleSignUp">登録</v-btn>
+          <v-btn @click="handleLogin">ログイン</v-btn>
+        </v-form>
+      </v-sheet>
+      <v-btn @click="handleOpenModal">ログイン</v-btn>
+      <v-btn @click="handleOpenModal">新規登録</v-btn>
+      <v-btn><nuxt-link to="/kifu">登録せずに使用</nuxt-link></v-btn>
+      <!-- <v-btn
         href="https://kifu.auth.ap-northeast-1.amazoncognito.com/login?client_id=68uc2o5qmlr7lmaph4sr2qj5f9&response_type=code&scope=aws.cognito.signin.user.admin+openid&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F"
         >ログイン</v-btn
-      >
+      > -->
       <!-- <v-sheet width="300" class="mx-auto"
         ><v-form>
           <v-text-field label="mail"></v-text-field>
@@ -37,12 +54,14 @@
         />
       </a> -->
       <!-- <v-btn id="logout" @click="handleLogout()">logout</v-btn> -->
-      <div>本アプリはamazonIDが必用になります</div>
-      <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link> </v-btn>
+      <!-- <div>本アプリはamazonIDが必用になります</div> -->
+      <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link></v-btn>
     </v-col>
   </v-row>
 </template>
 <script type="text/javascript">
+// import { useRouter } from "nuxt";
+
 export default {
   // mounted() {
   //   window.onAmazonLoginReady = function () {
@@ -59,12 +78,49 @@ export default {
   //     d.getElementById("amazon-root").appendChild(a);
   //   })(document);
   // },
-  setup() {
+  setup(_, { root }) {
     const state = reactive({
       // ここにstateを定義する
       params: {},
+      isOpenModal: false,
+      loginInfo: { mail: "", password: "" },
+      user: { id: "", mail: "", password: "", total_donation_amounts: "" },
     });
-
+    const router = useRouter();
+    const handleOpenModal = () => {
+      state.isOpenModal = true;
+    };
+    const handleSignUp = async () => {
+      const { data } = await useFetch("http://127.0.0.1:8000/api/createUser", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        },
+        body: `mail=${state.loginInfo.mail}&password=${state.loginInfo.password}&total_donation_amounts=0`,
+      });
+      state.isOpenModal = false;
+      state.loginInfo = {};
+      // router.push("/");
+    };
+    const handleLogin = async () => {
+      let params = {
+        mail: state.loginInfo.mail,
+        password: state.loginInfo.password,
+      };
+      const { data } = await useFetch("http://127.0.0.1:8000/api/getUsers", {
+        method: "GET",
+        // mode: "no-cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        },
+        params: params,
+      });
+      state.user = data.value[0];
+      // console.log(data.value[0].id, "data");
+    };
     const handleClick = () => {
       // let options = {};
       // options.scope = "profile";
@@ -144,6 +200,9 @@ export default {
       state,
       handleClick,
       handleLogout,
+      handleOpenModal,
+      handleSignUp,
+      handleLogin,
     };
   },
 };
