@@ -91,34 +91,60 @@ export default {
       state.isOpenModal = true;
     };
     const handleSignUp = async () => {
-      const { data } = await useFetch("http://127.0.0.1:8000/api/createUser", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        },
-        body: `mail=${state.loginInfo.mail}&password=${state.loginInfo.password}&total_donation_amounts=0`,
-      });
+      let params = {
+        email: state.loginInfo.mail,
+        password1: state.loginInfo.password,
+        password2: state.loginInfo.password,
+      };
+      const { data } = await useFetch(
+        "http://127.0.0.1:8000/rest-auth/registration/",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: params,
+        }
+      );
+      // const { data } = await useFetch("http://127.0.0.1:8000/api/createUser", {
+      //   method: "POST",
+      //   mode: "no-cors",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+      //   },
+      //   body: `mail=${state.loginInfo.mail}&password=${state.loginInfo.password}&total_donation_amounts=0`,
+      // });
       state.isOpenModal = false;
       state.loginInfo = {};
       // router.push("/");
     };
     const handleLogin = async () => {
       let params = {
-        mail: state.loginInfo.mail,
+        email: state.loginInfo.mail,
         password: state.loginInfo.password,
       };
-      const { data } = await useFetch("http://127.0.0.1:8000/api/getUsers", {
-        method: "GET",
-        // mode: "no-cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        },
-        params: params,
-      });
-      state.user = data.value[0];
+      const { data } = await useFetch(
+        "http://127.0.0.1:8000/rest-auth/login/",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: params,
+        }
+      );
+      console.log(data, "data");
+      // const { data } = await useFetch("http://127.0.0.1:8000/api/getUsers", {
+      //   method: "GET",
+      //   // mode: "no-cors",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+      //   },
+      //   params: params,
+      // });
+      // state.user = data.value[0];
       // console.log(data.value[0].id, "data");
     };
     const handleClick = () => {
