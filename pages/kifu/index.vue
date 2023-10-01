@@ -15,4 +15,7 @@
     </v-col>
   </v-row>
 </template>
-<script></script>
+<script>
+// const token = localStorage.getItem("token");
+// console.log(token, "token");
+</script>

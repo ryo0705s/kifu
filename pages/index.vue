@@ -134,7 +134,8 @@ export default {
           body: params,
         }
       );
-      console.log(data, "data");
+      // console.log(data.value.token, "data");
+      localStorage.setItem("token", data.value.token);
       // const { data } = await useFetch("http://127.0.0.1:8000/api/getUsers", {
       //   method: "GET",
       //   // mode: "no-cors",

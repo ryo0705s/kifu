@@ -9,6 +9,7 @@
           <li><nuxt-link to="/kifu">kifu</nuxt-link></li>
           <li><nuxt-link to="/history">history</nuxt-link></li>
           <li><nuxt-link to="/contact">contact</nuxt-link></li>
+          <li @click="handleLogout">logout</li>
         </ul></v-app-bar
       >
       <!-- <v-navigation-drawer>
@@ -30,4 +31,16 @@
     </v-card>
   </v-app>
 </template>
+<script>
+export default {
+  setup() {
+    const handleLogout = () => {
+      localStorage.removeItem("token");
+      // localStorage.removeItem("user");
+      location.reload();
+    };
+    return { handleLogout };
+  },
+};
+</script>
 <style></style>
