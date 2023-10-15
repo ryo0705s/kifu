@@ -96,7 +96,7 @@ export default {
         password1: state.loginInfo.password,
         password2: state.loginInfo.password,
       };
-      const { data } = await useFetch(
+      const { data, error } = await useFetch(
         "http://127.0.0.1:8000/rest-auth/registration/",
         {
           method: "POST",
@@ -121,10 +121,10 @@ export default {
     };
     const handleLogin = async () => {
       let params = {
-        email: state.loginInfo.mail,
-        password: state.loginInfo.password,
+        email: state.loginInfo?.mail,
+        password: state.loginInfo?.password,
       };
-      const { data } = await useFetch(
+      const { data, error } = await useFetch(
         "http://127.0.0.1:8000/rest-auth/login/",
         {
           method: "POST",
@@ -134,8 +134,20 @@ export default {
           body: params,
         }
       );
-      // console.log(data.value.token, "data");
-      localStorage.setItem("token", data.value.token);
+      // console.log(data.value, "data", error, "error");
+      if (error) {
+        // console.log(error, "error");
+        throw createError(error.value);
+        // throw new Error("エラーが発生しました");
+      }
+      if (data.value) {
+        localStorage.setItem("token", data.value.token);
+        const token = localStorage.getItem("token");
+        if (token) {
+          router.push("/kifu");
+        }
+      }
+
       // const { data } = await useFetch("http://127.0.0.1:8000/api/getUsers", {
       //   method: "GET",
       //   // mode: "no-cors",

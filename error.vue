@@ -1,0 +1,12 @@
+<template>
+  <div>
+    <h1>{{ error?.message }}</h1>
+    エラーページです
+  </div>
+</template>
+<script setup lang="ts">
+import type { NuxtError } from "#app";
+defineProps({
+  error: Object as () => NuxtError,
+});
+</script>
