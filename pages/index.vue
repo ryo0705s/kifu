@@ -136,8 +136,9 @@ export default {
       );
       // console.log(data.value, "data", error, "error");
       if (error) {
-        // console.log(error, "error");
-        throw createError(error.value);
+        console.log(error.value.name, "error");
+        showError(error.value.name);
+        // throw createError(error.value);
         // throw new Error("エラーが発生しました");
       }
       if (data.value) {
