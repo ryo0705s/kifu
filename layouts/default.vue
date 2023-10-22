@@ -31,16 +31,11 @@
     </v-card>
   </v-app>
 </template>
-<script>
-export default {
-  setup() {
-    const handleLogout = () => {
-      localStorage.removeItem("token");
-      // localStorage.removeItem("user");
-      location.reload();
-    };
-    return { handleLogout };
-  },
+<script setup>
+const router = useRouter();
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  router.push("/");
 };
 </script>
 <style></style>

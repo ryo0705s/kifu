@@ -45,7 +45,7 @@ const handleLogin = async () => {
     }
   );
   if (error) {
-    console.log(error.value.name, "error");
+    console.log(error.value?.name, "error");
     // todo: ここでshowErrorするとなぜかerro.vueの500エラーが出る。template内で出すとうまくいかないので
     // showError(error.value?.name);
     router.push("/");
