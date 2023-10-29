@@ -30,37 +30,8 @@ const handleSignUp = async () => {
   // router.push("/");
 };
 const handleLogin = async () => {
-  let params = {
-    email: state.loginInfo?.mail,
-    password: state.loginInfo?.password,
-  };
-  const { data, error } = await useFetch(
-    "http://127.0.0.1:8000/rest-auth/login/",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: params,
-    }
-  );
-  if (error) {
-    console.log(error.value?.name, "error");
-    // todo: ここでshowErrorするとなぜかerro.vueの500エラーが出る。template内で出すとうまくいかないので
-    // showError(error.value?.name);
-    router.push("/");
-    // throw createError(error.value);
-    // throw new Error("エラーが発生しました");
-  }
-  if (data.value) {
-    localStorage.setItem("token", data.value.token);
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/kifu");
-    } else {
-      router.push("/");
-    }
-  }
+  const user = await useLoginUser(state.loginInfo);
+  console.log(user.state.userInfo, "user");
 };
 const handleClick = () => {
   setTimeout(
