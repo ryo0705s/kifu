@@ -31,7 +31,6 @@ const handleSignUp = async () => {
 };
 const handleLogin = async () => {
   const user = await useLoginUser(state.loginInfo);
-  console.log(user.state.userInfo, "user");
 };
 const handleClick = () => {
   setTimeout(

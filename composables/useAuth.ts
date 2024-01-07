@@ -21,11 +21,12 @@ export const useLoginUser = async (loginInfo: {
     userInfo: { pk: 0, username: "", email: "", first_name: "", last_name: "" },
   });
   let params = {
+    username: "hoge",
     email: loginInfo?.mail,
     password: loginInfo?.password,
   };
   const { data, error } = await useFetch(
-    "http://127.0.0.1:8000/rest-auth/login/",
+    "http://127.0.0.1:8000/api/auth/login/",
     {
       method: "POST",
       headers: {
@@ -54,14 +55,27 @@ export const useLoginUser = async (loginInfo: {
     // throw new Error("エラーが発生しました");
   }
   if (data.value) {
-    localStorage.setItem("token", data.value.token);
+    localStorage.setItem("token", data.value.access_token); // アクセストークンの保存
+    localStorage.setItem("refreshToken", data.value.refresh_token); // リフレッシュトークンの保存
+
     const token = localStorage.getItem("token");
-    const user = data.value.user;
-    if (token) {
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (token && refreshToken) {
       router.push("/kifu");
     } else {
       router.push("/");
     }
   }
+  // if (data.value) {
+  //   localStorage.setItem("token", data.value.token);
+  //   const token = localStorage.getItem("token");
+  //   const user = data.value.user;
+  //   if (token) {
+  //     router.push("/kifu");
+  //   } else {
+  //     router.push("/");
+  //   }
+  // }
   return { state, loginUser };
 };
