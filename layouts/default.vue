@@ -34,7 +34,8 @@
 <script setup>
 const router = useRouter();
 const handleLogout = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   router.push("/");
 };
 </script>

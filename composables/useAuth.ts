@@ -21,7 +21,6 @@ export const useLoginUser = async (loginInfo: {
     userInfo: { pk: 0, username: "", email: "", first_name: "", last_name: "" },
   });
   let params = {
-    username: "hoge",
     email: loginInfo?.mail,
     password: loginInfo?.password,
   };
@@ -55,27 +54,17 @@ export const useLoginUser = async (loginInfo: {
     // throw new Error("エラーが発生しました");
   }
   if (data.value) {
-    localStorage.setItem("token", data.value.access_token); // アクセストークンの保存
-    localStorage.setItem("refreshToken", data.value.refresh_token); // リフレッシュトークンの保存
+    localStorage.setItem("accessToken", data.value.access); // アクセストークンの保存
+    localStorage.setItem("refreshToken", data.value.refresh); // リフレッシュトークンの保存
 
-    const token = localStorage.getItem("token");
+    const accessToken = localStorage.getItem("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
 
-    if (token && refreshToken) {
+    if (accessToken && refreshToken) {
       router.push("/kifu");
     } else {
       router.push("/");
     }
   }
-  // if (data.value) {
-  //   localStorage.setItem("token", data.value.token);
-  //   const token = localStorage.getItem("token");
-  //   const user = data.value.user;
-  //   if (token) {
-  //     router.push("/kifu");
-  //   } else {
-  //     router.push("/");
-  //   }
-  // }
   return { state, loginUser };
 };
