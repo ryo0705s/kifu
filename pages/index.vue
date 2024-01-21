@@ -32,6 +32,12 @@ const handleSignUp = async () => {
 const handleLogin = async () => {
   const user = await useLoginUser(state.loginInfo);
 };
+const handleRefresh = async () => {
+  const user = await useRefresh();
+};
+const handleVerify = async () => {
+  const user = await useVerify();
+};
 const handleClick = () => {
   setTimeout(
     (window.doLogin = function () {
@@ -107,7 +113,7 @@ const handleLogout = () => {
             label="password"
             v-model="state.loginInfo.password"
           ></v-text-field>
-          <v-btn @click="handleSignUp">登録</v-btn>
+          <v-btn @click="handleVerify">登録</v-btn>
           <v-btn @click="handleLogin">ログイン</v-btn>
         </v-form>
       </v-sheet>
