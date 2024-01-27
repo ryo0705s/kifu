@@ -88,7 +88,7 @@ const handleLogout = () => {
 </script>
 <style></style>
 <template>
-  <v-row align-content="center">
+  <!-- <v-row align-content="center">
     <v-col align="center">
       <v-list>
         <v-list-item>このアプリは気軽に寄付ができるアプリです。</v-list-item>
@@ -100,8 +100,8 @@ const handleLogout = () => {
         >
       </v-list>
     </v-col>
-  </v-row>
-  <!-- <v-row>
+  </v-row> -->
+  <v-row>
     <v-col align="center">
       <v-sheet width="300" class="mx-auto" v-if="state.isOpenModal"
         ><v-form>
@@ -123,5 +123,5 @@ const handleLogout = () => {
 
       <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link></v-btn>
     </v-col>
-  </v-row> -->
+  </v-row>
 </template>

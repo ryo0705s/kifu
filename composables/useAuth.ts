@@ -9,11 +9,14 @@ export const useLoginUser = async (loginInfo: {
     first_name: string;
     last_name: string;
   }
-  interface LoginResponse {
-    value: {
-      user: User;
-      token: string;
-    };
+  interface LoginInfo {
+    access: string;
+    refresh: string;
+    user: User;
+  }
+  interface ApiResponse<T> {
+    data: Ref<T | null>;
+    error: Ref<Error | null>;
   }
   const router = useRouter();
   const state = reactive({
@@ -24,7 +27,8 @@ export const useLoginUser = async (loginInfo: {
     email: loginInfo?.mail,
     password: loginInfo?.password,
   };
-  const { data, error } = await useFetch(
+
+  const { data, error }: ApiResponse<LoginInfo> = await useFetch(
     "http://127.0.0.1:8000/api/auth/login/",
     {
       method: "POST",
@@ -35,6 +39,7 @@ export const useLoginUser = async (loginInfo: {
     }
   );
   if (data.value) state.userInfo = data.value.user;
+
   const loginUser = useState<{
     pk: number;
     username: string;
