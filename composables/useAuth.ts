@@ -66,9 +66,9 @@ export const useLoginUser = async (loginInfo: {
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (accessToken && refreshToken) {
-      router.push("/kifu");
-    } else {
       router.push("/");
+    } else {
+      router.push("/login");
     }
   }
   return { state, loginUser };
@@ -90,6 +90,7 @@ export const useRefresh = async () => {
 };
 export const useVerify = async () => {
   const router = useRouter();
+  const accessToken = localStorage.getItem("refreshToken");
   const refreshToken = localStorage.getItem("refreshToken");
 
   const { data, error } = await useFetch(
@@ -102,37 +103,25 @@ export const useVerify = async () => {
       body: { token: refreshToken },
     }
   );
-  // if (data.value) state.userInfo = data.value.user;
-  // const loginUser = useState<{
-  //   pk: number;
-  //   username: string;
-  //   email: string;
-  //   first_name: string;
-  //   last_name: string;
-  // }>("login-user", () => {
-  //   console.log("retreiving user info ...");
-  //   return state.userInfo;
-  // });
-  // if (error.value) {
-  //   console.log(error.value?.name, "error");
-  //   // todo: ここでshowErrorするとなぜかerro.vueの500エラーが出る。template内で出すとうまくいかないので
-  //   // showError(error.value?.name);
-  //   router.push("/");
-  //   // throw createError(error.value);
-  //   // throw new Error("エラーが発生しました");
-  // }
-  // if (data.value) {
-  //   localStorage.setItem("accessToken", data.value.access); // アクセストークンの保存
-  //   localStorage.setItem("refreshToken", data.value.refresh); // リフレッシュトークンの保存
+  if (error.value) {
+    if (accessToken) {
+      useRefresh();
+    } else {
+      router.push("/login");
+    }
+  }
+};
+export const checkLoggedIn = () => {
+  const state = reactive({ isLoggedIn: false });
+  const { isLoggedIn, updateLoggedIn } = useLoggedIn();
+  const refreshToken = localStorage.getItem("refreshToken");
+  let isRedirect = false;
 
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const refreshToken = localStorage.getItem("refreshToken");
-
-  //   if (accessToken && refreshToken) {
-  //     router.push("/kifu");
-  //   } else {
-  //     router.push("/");
-  //   }
-  // }
-  // return { state, loginUser };
+  if (refreshToken) {
+    state.isLoggedIn = isLoggedIn.value;
+    useVerify();
+  } else {
+    isRedirect = true;
+  }
+  return isRedirect;
 };

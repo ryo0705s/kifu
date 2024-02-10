@@ -1,15 +1,6 @@
-export const checkLoggedIn = () => {
-  const state = reactive({ loggedIn: false });
-  const user = useState("login-user");
-  const loggedIn = useState<{ loggedIn: boolean }>("logged-in", () => {
-    state.loggedIn = true;
-    return { loggedIn: state.loggedIn };
-  });
-
-  if (!user.value) {
+export default defineNuxtRouteMiddleware(async (to) => {
+  const isRedirect = await checkLoggedIn();
+  if (isRedirect === true && to.path !== "/login") {
     return navigateTo("/login");
   }
-};
-export default defineNuxtRouteMiddleware((context) => {
-  checkLoggedIn();
 });
