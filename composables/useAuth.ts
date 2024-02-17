@@ -1,26 +1,25 @@
+interface User {
+  pk: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+interface LoginInfo {
+  access: string;
+  refresh: string;
+  user: User;
+}
+interface ApiResponse<T> {
+  data: Ref<T | null>;
+  error: Ref<Error | null>;
+}
 export const useLoginUser = async (loginInfo: {
   mail: string;
   password: string;
 }) => {
-  interface User {
-    pk: number;
-    username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-  }
-  interface LoginInfo {
-    access: string;
-    refresh: string;
-    user: User;
-  }
-  interface ApiResponse<T> {
-    data: Ref<T | null>;
-    error: Ref<Error | null>;
-  }
   const router = useRouter();
   const state = reactive({
-    // loginInfo: { mail: "", password: "" },
     userInfo: { pk: 0, username: "", email: "", first_name: "", last_name: "" },
   });
   let params = {
@@ -38,7 +37,9 @@ export const useLoginUser = async (loginInfo: {
       body: params,
     }
   );
-  if (data.value) state.userInfo = data.value.user;
+  if (data.value) {
+    state.userInfo = data.value.user;
+  }
 
   const loginUser = useState<{
     pk: number;
@@ -76,21 +77,27 @@ export const useLoginUser = async (loginInfo: {
 export const useRefresh = async () => {
   const router = useRouter();
   const refreshToken = localStorage.getItem("refreshToken");
-
-  const { data, error } = await useFetch(
+  const { data, error }: ApiResponse<{ access: string }> = await useFetch(
     "http://127.0.0.1:8000/api/token/refresh/",
     {
       method: "POST",
       headers: {
         Accept: "application/json",
       },
-      body: { refresh: refreshToken },
+      body: JSON.stringify({ refresh: refreshToken }),
     }
   );
+  if (data.value) {
+    localStorage.setItem("accessToken", data.value.access);
+  }
+  if (error.value) {
+    router.push("/login");
+  }
 };
+
 export const useVerify = async () => {
   const router = useRouter();
-  const accessToken = localStorage.getItem("refreshToken");
+  const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
 
   const { data, error } = await useFetch(
@@ -100,11 +107,11 @@ export const useVerify = async () => {
       headers: {
         Accept: "application/json",
       },
-      body: { token: refreshToken },
+      body: JSON.stringify({ token: accessToken }),
     }
   );
-  if (error.value) {
-    if (accessToken) {
+  if (error.value?.status === 401) {
+    if (refreshToken) {
       useRefresh();
     } else {
       router.push("/login");
