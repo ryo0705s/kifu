@@ -55,7 +55,7 @@ export const useLoginUser = async (loginInfo: {
     console.log(error.value?.name, "error");
     // todo: ここでshowErrorするとなぜかerro.vueの500エラーが出る。template内で出すとうまくいかないので
     // showError(error.value?.name);
-    router.push("/");
+    router.push("/login");
     // throw createError(error.value);
     // throw new Error("エラーが発生しました");
   }
