@@ -4,11 +4,20 @@ const state = reactive({
   isOpenModal: false,
   loginInfo: { mail: "", password: "" },
   user: { id: "", mail: "", password: "", total_donation_amounts: "" },
+  buttonName: "",
 });
 const router = useRouter();
-const handleOpenModal = () => {
+const openModal = (action) => {
   state.isOpenModal = true;
+  if (action === "login") {
+    state.buttonName = "ログイン";
+  } else if (action === "registration") {
+    state.buttonName = "登録する";
+  }
 };
+// 'EmailAddressManager' object has no attribute 'is_verified'が直せない
+// all-authとrest-authのバージョン違いの可能性もあるが、挙げると別のエラーが出る
+// ログインがrest-frameworkで登録がrest-authなのが悪いかも?
 const handleSignUp = async () => {
   let params = {
     email: state.loginInfo.mail,
@@ -16,18 +25,24 @@ const handleSignUp = async () => {
     password2: state.loginInfo.password,
   };
   const { data, error } = await useFetch(
-    "http://127.0.0.1:8000/rest-auth/registration/",
+    "http://127.0.0.1:8000/api/auth/registration/",
     {
       method: "POST",
       headers: {
         Accept: "application/json",
       },
-      body: params,
+      body: JSON.stringify(params),
     }
   );
   state.isOpenModal = false;
   state.loginInfo = {};
-  // router.push("/");
+  if (data.value) {
+    state.user = data.value;
+    router.push("/");
+  }
+  if (error.value) {
+    router.push("/login");
+  }
 };
 const handleLogin = async () => {
   const user = await useLoginUser(state.loginInfo);
@@ -35,50 +50,11 @@ const handleLogin = async () => {
 const handleRefresh = async () => {
   // const user = await useRefresh();
 };
-const handleVerify = async () => {
-  // const user = await useVerify();
+const handleCreateUser = async () => {
+  const user = await useCreateUser(state.userInfo);
+  console.log(user, "user");
 };
-const handleClick = () => {
-  setTimeout(
-    (window.doLogin = function () {
-      let options = {
-        scope: "profile",
-        pkce: true,
-        response_type: "code",
-        redirect_uri: "http://localhost:3000//handle_login.php",
-        client_id:
-          "amzn1.application-oa2-client.c4db0a0cfc104ecbb0afc2afc513f6c1",
-      };
-      state.params = options;
-      amazon.Login.authorize(options, function (response) {
-        console.log(response, "response");
-        if (response.error) {
-          alert("oauthエラー" + response.error);
-          return;
-        }
-        amazon.Login.retrieveToken(response.code, function (response) {
-          if (response.error) {
-            alert("oauthエラー" + response.error);
-            return;
-          }
-          amazon.Login.retrieveProfile(
-            response.access_token,
-            function (response) {
-              alert("こんにちは。" + response.profile.Name);
-              alert(
-                "あなたのEメールアドレス：" + response.profile.PrimaryEmail
-              );
-              alert("あなたの一意のID：" + response.profile.CustomerId);
-              if (window.console && window.console.log)
-                window.console.log(response);
-            }
-          );
-        });
-      });
-    }),
-    2
-  );
-};
+
 const handleLogout = () => {
   document.getElementById("Logout").onclick,
     function () {
@@ -86,25 +62,26 @@ const handleLogout = () => {
     };
 };
 </script>
-<style></style>
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+.button {
+  margin: 0 auto 10px;
+}
+</style>
 <template>
-  <!-- <v-row align-content="center">
-    <v-col align="center">
-      <v-list>
-        <v-list-item>このアプリは気軽に寄付ができるアプリです。</v-list-item>
-        <v-list-item
-          >Amazonアカウントがあれば誰でも今すぐ始められます</v-list-item
-        >
-        <v-list-item>
-          金額を指定して、全国の児童施設やこども食堂などに寄付してみましょう</v-list-item
-        >
-      </v-list>
-    </v-col>
-  </v-row> -->
-  <v-row>
-    <v-col align="center">
-      <v-sheet width="300" class="mx-auto" v-if="state.isOpenModal"
-        ><v-form>
+  <v-dialog
+    v-model="state.isOpenModal"
+    max-width="500"
+    max-height="auto"
+    style="background-color: white"
+  >
+    <v-row align-content="center">
+      <v-col align="center" class="container">
+        <v-form>
           <v-text-field
             label="mail"
             v-model="state.loginInfo.mail"
@@ -113,15 +90,21 @@ const handleLogout = () => {
             label="password"
             v-model="state.loginInfo.password"
           ></v-text-field>
-          <v-btn @click="handleVerify">登録</v-btn>
-          <v-btn @click="handleLogin">ログイン</v-btn>
+          <v-text-field
+            label="password"
+            v-model="state.loginInfo.password"
+          ></v-text-field>
+          <v-btn @click="handleSignUp">{{ state.buttonName }}</v-btn>
         </v-form>
-      </v-sheet>
-      <v-btn @click="handleOpenModal">ログイン</v-btn>
-      <v-btn @click="handleOpenModal">新規登録</v-btn>
-      <v-btn><nuxt-link to="/kifu">登録せずに使用</nuxt-link></v-btn>
-
-      <v-btn><nuxt-link to="/contact">問い合わせ</nuxt-link></v-btn>
+      </v-col>
+    </v-row>
+  </v-dialog>
+  <v-row align-content="center">
+    <v-col align="center" class="container">
+      <v-btn @click="openModal('login')" class="button">ログイン</v-btn>
+      <v-btn @click="openModal('registration')" class="button">新規登録</v-btn>
+      <span><nuxt-link to="/kifu">登録せずに使用</nuxt-link></span>
+      <span><nuxt-link to="/contact">問い合わせ</nuxt-link></span>
     </v-col>
   </v-row>
 </template>
