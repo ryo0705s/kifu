@@ -61,6 +61,14 @@ const handleLogout = () => {
       amazon.Login.logout();
     };
 };
+const signUpOrLogin = () => {
+  switch (state.buttonName) {
+    case "ログイン":
+      return handleLogin();
+    case "登録する":
+      return handleSignUp();
+  }
+};
 </script>
 <style scoped>
 .container {
@@ -94,7 +102,7 @@ const handleLogout = () => {
             label="password"
             v-model="state.loginInfo.password"
           ></v-text-field>
-          <v-btn @click="handleSignUp">{{ state.buttonName }}</v-btn>
+          <v-btn @click="signUpOrLogin">{{ state.buttonName }}</v-btn>
         </v-form>
       </v-col>
     </v-row>

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="primary"
+    <v-app-bar color="$yellow"
       ><v-app-bar-title>kifu</v-app-bar-title>
       <ul>
         <li><nuxt-link to="/">home</nuxt-link></li>

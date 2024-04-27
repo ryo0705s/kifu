@@ -35,5 +35,9 @@ export default defineNuxtConfig({
     //   },
     // },
   },
-  css: ["@/assets/scss/_colors.scss"],
+  css: [
+    "@/assets/scss/_colors.scss",
+    "@/assets/scss/_styles.scss",
+    "@/assets/scss/main.scss",
+  ],
 });

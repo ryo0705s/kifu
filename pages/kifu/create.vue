@@ -25,7 +25,7 @@
           <div>の間</div>
         </v-list-item>
         <v-list-item
-          ><v-btn @click="addDonation">この条件で検索</v-btn>
+          ><v-btn @click="addDonation" color="yellow">この条件で検索</v-btn>
         </v-list-item>
       </v-list>
     </v-col>
