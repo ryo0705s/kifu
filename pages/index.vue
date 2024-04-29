@@ -1,9 +1,13 @@
 <script setup></script>
-<style></style>
+<style scoped>
+.list-background {
+  background: var(--cream);
+}
+</style>
 <template>
   <v-row align-content="center">
     <v-col align="center">
-      <v-list>
+      <v-list class="list-background">
         <v-list-item>このアプリは気軽に寄付ができるアプリです。</v-list-item>
         <v-list-item
           >Amazonアカウントがあれば誰でも今すぐ始められます</v-list-item

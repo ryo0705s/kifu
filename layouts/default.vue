@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="$yellow"
+    <v-app-bar color="yellow"
       ><v-app-bar-title>kifu</v-app-bar-title>
       <ul>
         <li><nuxt-link to="/">home</nuxt-link></li>
@@ -12,7 +12,7 @@
       </ul></v-app-bar
     ><v-main style="height: 80%"
       ><v-container class="container"><slot /></v-container></v-main
-    ><v-footer color="primary">
+    ><v-footer color="yellow">
       <v-row>
         <v-col><nuxt-link to="/"> home</nuxt-link></v-col>
         <v-col><nuxt-link to="/login">login</nuxt-link> </v-col>
@@ -32,6 +32,9 @@ const handleLogout = () => {
 };
 </script>
 <style scoped>
+.v-application {
+  background: var(--cream);
+}
 .container {
   padding-top: 10rem;
 }

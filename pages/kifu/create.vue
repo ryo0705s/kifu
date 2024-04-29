@@ -1,36 +1,8 @@
-<template>
-  <v-row align-content="center">
-    <v-col align="center">
-      <v-list>
-        <v-list-item>ランダム検索結果</v-list-item>
-        <v-list-item>〇〇に〇〇円寄付しました</v-list-item>
-      </v-list>
-    </v-col>
-  </v-row>
-  <v-row align-content="center">
-    <v-col align="center">
-      <v-list>
-        <v-list-item>金額を入力</v-list-item>
-
-        <v-list-item
-          ><v-sheet width="300"
-            ><v-text-field
-              label="金額"
-              type="number"
-              v-model="state.donation"
-            ></v-text-field>
-            <div>~</div>
-            <v-text-field label="金額"></v-text-field
-          ></v-sheet>
-          <div>の間</div>
-        </v-list-item>
-        <v-list-item
-          ><v-btn @click="addDonation" color="yellow">この条件で検索</v-btn>
-        </v-list-item>
-      </v-list>
-    </v-col>
-  </v-row>
-</template>
+<style scoped>
+.list-background {
+  background: var(--cream);
+}
+</style>
 <script>
 import { defineComponent, reactive } from "@vue/composition-api";
 export default defineComponent({
@@ -56,3 +28,35 @@ export default defineComponent({
   },
 });
 </script>
+<template>
+  <v-row align-content="center">
+    <v-col align="center">
+      <v-list class="list-background">
+        <v-list-item>ランダム検索結果</v-list-item>
+        <v-list-item>〇〇に〇〇円寄付しました</v-list-item>
+      </v-list>
+    </v-col>
+  </v-row>
+  <v-row align-content="center">
+    <v-col align="center">
+      <v-list class="list-background">
+        <v-list-item>金額を入力</v-list-item>
+        <v-list-item
+          ><v-sheet width="300" class="list-background"
+            ><v-text-field
+              label="金額"
+              type="number"
+              v-model="state.donation"
+            ></v-text-field>
+            <div>~</div>
+            <v-text-field label="金額"></v-text-field
+          ></v-sheet>
+          <div>の間</div>
+        </v-list-item>
+        <v-list-item
+          ><v-btn @click="addDonation" color="yellow">この条件で検索</v-btn>
+        </v-list-item>
+      </v-list>
+    </v-col>
+  </v-row>
+</template>
