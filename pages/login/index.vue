@@ -76,8 +76,8 @@ const signUpOrLogin = () => {
   flex-direction: column;
   width: 500px;
 }
-.button {
-  margin: 0 auto 10px;
+.container > * {
+  margin-bottom: 10px;
 }
 </style>
 <template>
@@ -87,30 +87,102 @@ const signUpOrLogin = () => {
     max-height="auto"
     style="background-color: white"
   >
-    <v-row align-content="center">
-      <v-col align="center" class="container">
-        <v-form>
+    <v-sheet class="bg-cream pa-12" rounded>
+      <v-card class="mx-auto px-6 py-8" max-width="344">
+        <v-form v-model="form" @submit.prevent="onSubmit">
           <v-text-field
-            label="mail"
             v-model="state.loginInfo.mail"
+            :readonly="loading"
+            :rules="[required]"
+            class="mb-2"
+            label="Email"
+            clearable
+          ></v-text-field>
+
+          <v-text-field
+            v-model="state.loginInfo.password"
+            :readonly="loading"
+            :rules="[required]"
+            label="Password"
+            placeholder="Enter your password"
+            clearable
           ></v-text-field>
           <v-text-field
-            label="password"
             v-model="state.loginInfo.password"
+            :readonly="loading"
+            :rules="[required]"
+            label="Password"
+            placeholder="Enter your password"
+            clearable
           ></v-text-field>
-          <v-text-field
-            label="password"
-            v-model="state.loginInfo.password"
-          ></v-text-field>
-          <v-btn @click="signUpOrLogin">{{ state.buttonName }}</v-btn>
+
+          <br />
+
+          <v-btn
+            :disabled="!form"
+            :loading="loading"
+            color="yellow"
+            size="large"
+            type="submit"
+            variant="elevated"
+            block
+            @click="handleCreateUser"
+          >
+            新規登録
+          </v-btn>
         </v-form>
-      </v-col>
-    </v-row>
+      </v-card>
+    </v-sheet>
   </v-dialog>
+  <v-sheet class="bg-cream pa-12" rounded>
+    <v-card class="mx-auto px-6 py-8" max-width="344">
+      <v-form v-model="form" @submit.prevent="onSubmit">
+        <v-text-field
+          v-model="state.loginInfo.mail"
+          :readonly="loading"
+          :rules="[required]"
+          class="mb-2"
+          label="Email"
+          clearable
+        ></v-text-field>
+
+        <v-text-field
+          v-model="state.loginInfo.password"
+          :readonly="loading"
+          :rules="[required]"
+          label="Password"
+          placeholder="Enter your password"
+          clearable
+        ></v-text-field>
+        <v-text-field
+          v-model="state.loginInfo.password"
+          :readonly="loading"
+          :rules="[required]"
+          label="Password"
+          placeholder="Enter your password"
+          clearable
+        ></v-text-field>
+
+        <br />
+
+        <v-btn
+          :disabled="!form"
+          :loading="loading"
+          color="yellow"
+          size="large"
+          type="submit"
+          variant="elevated"
+          block
+          @click="handleLogin"
+        >
+          ログイン
+        </v-btn>
+      </v-form>
+    </v-card>
+  </v-sheet>
   <v-row align-content="center">
     <v-col align="center" class="container">
-      <v-btn @click="openModal('login')" class="button">ログイン</v-btn>
-      <v-btn @click="openModal('registration')" class="button">新規登録</v-btn>
+      <span @click="openModal('registration')" class="clickable">新規登録</span>
       <span><nuxt-link to="/kifu">登録せずに使用</nuxt-link></span>
       <span><nuxt-link to="/contact">問い合わせ</nuxt-link></span>
     </v-col>

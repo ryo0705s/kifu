@@ -8,7 +8,7 @@
         <li><nuxt-link to="/kifu">kifu</nuxt-link></li>
         <li><nuxt-link to="/history">history</nuxt-link></li>
         <li><nuxt-link to="/contact">contact</nuxt-link></li>
-        <li @click="handleLogout">logout</li>
+        <li @click="handleLogout" class="clickable">logout</li>
       </ul></v-app-bar
     ><v-main style="height: 80%"
       ><v-container class="container"><slot /></v-container></v-main
@@ -37,5 +37,6 @@ const handleLogout = () => {
 }
 .container {
   padding-top: 10rem;
+  margin-bottom: 10rem;
 }
 </style>
