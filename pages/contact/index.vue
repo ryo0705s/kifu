@@ -6,15 +6,16 @@
 <template>
   <v-row align-content="center">
     <v-col align="center"
-      ><v-list class="list-background">
+      ><v-list class="list-background" max-width="30rem">
         <v-list-item>問い合わせ</v-list-item>
         <v-list-item><v-text-field label="mail"></v-text-field></v-list-item>
         <v-list-item
-          ><v-text-field label="問い合わせ内容"></v-text-field
-        ></v-list-item> </v-list
-    ></v-col>
-  </v-row>
-  <v-row align-content="center">
-    <v-col align="center"></v-col>
+          ><v-textarea
+            label="問い合わせ内容"
+            multi-line
+          ></v-textarea></v-list-item
+        ><v-btn color="yellow">送信</v-btn></v-list
+      ></v-col
+    >
   </v-row>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar color="yellow"
-      ><v-app-bar-title>kifu</v-app-bar-title>
+      ><v-app-bar-title><nuxt-link to="/">Kifu</nuxt-link></v-app-bar-title>
       <ul>
         <li><nuxt-link to="/">home</nuxt-link></li>
         <li><nuxt-link to="/login">login</nuxt-link></li>

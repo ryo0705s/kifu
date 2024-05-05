@@ -115,9 +115,7 @@ const signUpOrLogin = () => {
             placeholder="Enter your password"
             clearable
           ></v-text-field>
-
           <br />
-
           <v-btn
             :disabled="!form"
             :loading="loading"
