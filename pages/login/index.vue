@@ -121,7 +121,7 @@ const signUpOrLogin = () => {
         ></v-text-field>
         <v-text-field
           v-model="state.loginInfo.password2"
-          label="Password"
+          label="Password（確認用）"
           placeholder="Enter your password（確認用）"
           clearable
         ></v-text-field>
@@ -155,7 +155,7 @@ const signUpOrLogin = () => {
       ></v-text-field>
       <v-text-field
         v-model="state.loginInfo.password2"
-        label="Password"
+        label="Password（確認用）"
         placeholder="Enter your password（確認用）"
         clearable
       ></v-text-field>

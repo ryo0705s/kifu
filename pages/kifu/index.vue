@@ -43,8 +43,8 @@ const handleRandomDonation = () => {
         height="13rem"
       >
         <v-card-title class="mt-3 mb-3">ランダムに寄付</v-card-title>
-        <v-cartd-text class="mt-3 mb-10"
-          >ランダムに寄付しますがよろしいですか？</v-cartd-text
+        <v-card-text class="mt-3 mb-10"
+          >ランダムに寄付しますがよろしいですか？</v-card-text
         >
         <template v-slot:actions>
           <v-btn
@@ -58,7 +58,7 @@ const handleRandomDonation = () => {
       </v-card>
       <v-card v-else class="max-auto" width="50rem" height="13rem">
         <v-card-title class="mt-3 mb-3">寄付の結果</v-card-title>
-        <v-cartd-text class="mt-3 mb-10">〇〇円寄付しました</v-cartd-text>
+        <v-card-text class="mt-3 mb-10">〇〇円寄付しました</v-card-text>
         <template v-slot:actions>
           <v-btn
             class="ml-auto mr-auto"

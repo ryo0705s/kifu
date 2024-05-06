@@ -8,6 +8,7 @@
         <li><nuxt-link to="/kifu">kifu</nuxt-link></li>
         <li><nuxt-link to="/history">history</nuxt-link></li>
         <li><nuxt-link to="/contact">contact</nuxt-link></li>
+        <li><nuxt-link to="/account">account</nuxt-link></li>
         <li @click="handleLogout" class="clickable">logout</li>
       </ul></v-app-bar
     ><v-main style="height: 80%"
@@ -19,6 +20,7 @@
         <v-col><nuxt-link to="/kifu">kifu</nuxt-link> </v-col>
         <v-col><nuxt-link to="/history">history</nuxt-link> </v-col>
         <v-col><nuxt-link to="/contact">contact</nuxt-link> </v-col>
+        <v-col><nuxt-link to="/account">account</nuxt-link> </v-col>
       </v-row></v-footer
     >
   </v-app>
