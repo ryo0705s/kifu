@@ -2,7 +2,7 @@
 const state = reactive({
   params: {},
   isOpenModal: false,
-  loginInfo: { mail: "", password: "" },
+  loginInfo: { mail: "", password1: "", password2: "" },
   user: { id: "", mail: "", password: "", total_donation_amounts: "" },
   buttonName: "",
 });
@@ -19,40 +19,58 @@ const openModal = (action) => {
 // all-authとrest-authのバージョン違いの可能性もあるが、挙げると別のエラーが出る
 // ログインがrest-frameworkで登録がrest-authなのが悪いかも?
 const handleSignUp = async () => {
-  let params = {
-    email: state.loginInfo.mail,
-    password1: state.loginInfo.password,
-    password2: state.loginInfo.password,
-  };
-  const { data, error } = await useFetch(
-    "http://127.0.0.1:8000/api/auth/registration/",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: JSON.stringify(params),
+  if (
+    (state.loginInfo.password1.length > 0) &
+    (state.loginInfo.password2.length > 0) &
+    (state.loginInfo.password1 === state.loginInfo.password2)
+  ) {
+    let params = {
+      email: state.loginInfo.mail,
+      password: state.loginInfo.password1,
+    };
+    const { data, error } = await useFetch(
+      "http://127.0.0.1:8000/api/auth/registration/",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: JSON.stringify(params),
+      }
+    );
+    state.isOpenModal = false;
+    state.loginInfo = {};
+    if (data.value) {
+      state.user = data.value;
+      router.push("/");
     }
-  );
-  state.isOpenModal = false;
-  state.loginInfo = {};
-  if (data.value) {
-    state.user = data.value;
-    router.push("/");
-  }
-  if (error.value) {
-    router.push("/login");
+    if (error.value) {
+      router.push("/login");
+    }
+  } else {
+    console.log("error");
   }
 };
 const handleLogin = async () => {
-  const user = await useLoginUser(state.loginInfo);
+  if (
+    (state.loginInfo.password1.length > 0) &
+    (state.loginInfo.password2.length > 0) &
+    (state.loginInfo.password1 === state.loginInfo.password2)
+  ) {
+    let loginInfo = {
+      mail: state.loginInfo.mail,
+      password: state.loginInfo.password1,
+    };
+    const user = await useLoginUser(loginInfo);
+  } else {
+    console.log("パスワードを見直してみ");
+  }
 };
 const handleRefresh = async () => {
   // const user = await useRefresh();
 };
 const handleCreateUser = async () => {
-  const user = await useCreateUser(state.userInfo);
-  console.log(user, "user");
+  const user = await useCreateUser(state.loginInfo);
 };
 
 const handleLogout = () => {
@@ -89,93 +107,69 @@ const signUpOrLogin = () => {
   >
     <v-sheet class="bg-cream pa-12" rounded>
       <v-card class="mx-auto px-6 py-8" max-width="344">
-        <v-form v-model="form" @submit.prevent="onSubmit">
-          <v-text-field
-            v-model="state.loginInfo.mail"
-            :readonly="loading"
-            :rules="[required]"
-            class="mb-2"
-            label="Email"
-            clearable
-          ></v-text-field>
-
-          <v-text-field
-            v-model="state.loginInfo.password"
-            :readonly="loading"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-            clearable
-          ></v-text-field>
-          <v-text-field
-            v-model="state.loginInfo.password"
-            :readonly="loading"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-            clearable
-          ></v-text-field>
-          <br />
-          <v-btn
-            :disabled="!form"
-            :loading="loading"
-            color="yellow"
-            size="large"
-            type="submit"
-            variant="elevated"
-            block
-            @click="handleCreateUser"
-          >
-            新規登録
-          </v-btn>
-        </v-form>
-      </v-card>
-    </v-sheet>
-  </v-dialog>
-  <v-sheet class="bg-cream pa-12" rounded>
-    <v-card class="mx-auto px-6 py-8" max-width="344">
-      <v-form v-model="form" @submit.prevent="onSubmit">
         <v-text-field
           v-model="state.loginInfo.mail"
-          :readonly="loading"
-          :rules="[required]"
           class="mb-2"
           label="Email"
           clearable
         ></v-text-field>
-
         <v-text-field
-          v-model="state.loginInfo.password"
-          :readonly="loading"
-          :rules="[required]"
+          v-model="state.loginInfo.password1"
           label="Password"
           placeholder="Enter your password"
           clearable
         ></v-text-field>
         <v-text-field
-          v-model="state.loginInfo.password"
-          :readonly="loading"
-          :rules="[required]"
+          v-model="state.loginInfo.password2"
           label="Password"
-          placeholder="Enter your password"
+          placeholder="Enter your password（確認用）"
           clearable
         ></v-text-field>
-
         <br />
-
         <v-btn
-          :disabled="!form"
-          :loading="loading"
           color="yellow"
           size="large"
           type="submit"
           variant="elevated"
           block
-          @click="handleLogin"
+          @click="handleSignUp"
         >
-          ログイン
+          新規登録
         </v-btn>
-      </v-form>
+      </v-card>
+    </v-sheet>
+  </v-dialog>
+  <v-sheet class="bg-cream pa-12" rounded>
+    <v-card class="mx-auto px-6 py-8" max-width="344">
+      <v-text-field
+        v-model="state.loginInfo.mail"
+        class="mb-2"
+        label="Email"
+        clearable
+      ></v-text-field>
+      <v-text-field
+        v-model="state.loginInfo.password1"
+        label="Password"
+        placeholder="Enter your password"
+        clearable
+      ></v-text-field>
+      <v-text-field
+        v-model="state.loginInfo.password2"
+        label="Password"
+        placeholder="Enter your password（確認用）"
+        clearable
+      ></v-text-field>
+      <br />
+      <v-btn
+        color="yellow"
+        size="large"
+        type="submit"
+        variant="elevated"
+        block
+        @click="handleLogin"
+      >
+        ログイン
+      </v-btn>
     </v-card>
   </v-sheet>
   <v-row align-content="center">
